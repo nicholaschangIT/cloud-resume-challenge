@@ -1,4 +1,4 @@
-name: Hugo_resume
+name: hugo_resume
 
 on:
   push:
