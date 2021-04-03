@@ -1,43 +1,29 @@
-name: CI/CD Release Pipeline
-on: 
-  push:
-    branches:
-      - master
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git Checkout
-        uses: actions/checkout@v2
-        
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: "0.71.0"
-          extended: true
+name: Blob storage website CI
 
-      - name: Setup Azure Service Principal
-        uses: azure/login@v1.1
-        with:
+on:
+    push:
+        branches: [ master ]
+    pull_request:
+        branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:            
+    - uses: actions/checkout@v2
+    - uses: azure/login@v1
+      with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Build Project
-        run: hugo --minify
-
-      - name: Release Assets
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          personal_token: ${{ secrets.TOKEN }}
-          publish_dir: ./public
-      
-      - name: Upload Assets To Azure Blob Storage
-        uses: azure/CLI@v1
-        with:
+    - name: Upload Assets To Azure Blob Storage
+      uses: azure/CLI@v1
+      with:
           azcliversion: 2.6.0
           inlineScript: |
             az storage blob delete-batch -s "\$web" --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
             az storage blob upload-batch -d "\$web" -s ./public --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
                               
-      - name: Dispose Azure Service Principal Session
-        run: |
-          az logout
+  # Azure logout 
+    - name: logout
+      run: |
+            az logout
