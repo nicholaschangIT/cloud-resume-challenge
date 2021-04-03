@@ -1,50 +1,76 @@
-# CI/CD Pipeline for building & deploying a Hugo static website to Azure Blob Storage.
-# Uses GitHub Hosted agents.
-# AZURE_STORAGE_KEY must be defined as a GitHub repository secret.
-name: CI/CD
+name: Build and deploy live site
 
-# Trigger the workflow on push or pull request events, but only for the master branch
+defaults:
+  run:
+    shell: bash
+
+# run this workflow on...
 on:
+  # ... all pushes to master
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
-    # Authentication
-    # Set up the following secrets in your repository: AZURE_CREDENTIALS
-    # For details on usage of secrets, please refer https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS  }}
-    
+    branches:
+      - master
+  # ... this schedule: 1m past the hour @ 7a/9a/12a/5a, M-F (ET)
+  schedule:
+    - cron: '1 12,14,17,22 * * 1,2,3,4,5'
 
 env:
-  hugoVersion: '0.70.0'
-  storageAccount: storageaccount1
+  HUGO_VERSION: 0.71.1
+  SITE_BASEURL: https://www.andrewconnell.com
+  AZURE_STORAGE_ACCOUNT: andrewconnellcom
+  # LIVE_AZURE_STORAGE_KEY: <secret>
+  AZURE_APPLICATION_INSIGHTS_APPID: 63YoMama-2e26-W3rs-8Pnk-0fArmyB00tsd
+  # AZURE_APPLICATION_INSIGHTS_APIKEY: <secret>
 
 jobs:
-  build:
+  ######################################################################
+  # build & deploy the site
+  ######################################################################
+  build-deploy:
+    name: Build and deploy
+    if: "!contains(github.event.head_commit.message,'[skip-ci]')"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: true
-    
-    - name: Download Hugo
-      run: |
-        wget -c 'https://github.com/gohugoio/hugo/releases/download/v${{ env.hugoVersion }}/hugo_extended_${{ env.hugoVersion }}_Linux-64bit.deb'
-    - name: Install Hugo
-      run: |
-        sudo dpkg -i hugo_extended_${{ env.hugoVersion }}_Linux-64bit.deb
-    - name: Generate Blog
-      run: |
-        hugo --log -v
-    
-    # Prevent hugo deploy from deleting files with '--maxDeletes -1'
-    - name: Deploy Blog
-      run: |
-        hugo deploy --maxDeletes -1
-      env:
-        AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
-        AZURE_STORAGE_ACCOUNT: ${{ env.StorageAccount }}
+      ######################################################################
+      # checkout full codebase
+      ######################################################################
+      - name: Checkout repo codebase
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          clean: true
+          submodules: false
+      ######################################################################
+      # download & install Hugo
+      ######################################################################
+      - name: Download Hugo v${{ env.HUGO_VERSION }} Linux x64
+        run: "wget https://github.com/gohugoio/hugo/releases/download/v${{ env.HUGO_VERSION }}
+        /hugo_${{ env.HUGO_VERSION }}_Linux-64bit.deb -O hugo_${{ env.HUGO_VERSION }}_Linux-64bit.deb"
+      - name: Install Hugo
+        run: sudo dpkg -i hugo*.deb
+      ######################################################################
+      # build site with Hugo
+      ######################################################################
+      - name: Build site with Hugo
+        run: hugo --baseUrl '${{ env.SITE_BASEURL }}'
+      ######################################################################
+      # deploy site with Hugo deploy comment (only deploys diff)
+      ######################################################################
+      - name: Deploy build to static site (Azure storage blob)
+        run: hugo deploy --maxDeletes -1
+        env:
+          AZURE_STORAGE_ACCOUNT: ${{ env.AZURE_STORAGE_ACCOUNT }}
+          AZURE_STORAGE_KEY: ${{ secrets.LIVE_AZURE_STORAGE_KEY }}
+      ######################################################################
+      # add release annotation to Azure App Insights
+      # > only annotate on push events & non [content] commits
+      ######################################################################
+      - name: Annotate deployment to Azure Application Insights
+        uses: wictorwilen/application-insights-action@v1
+        if: "github.event_name=='push' && !contains(github.event.head_commit.message,'[content]')"
+        with:
+          applicationId: ${{ env.AZURE_APPLICATION_INSIGHTS_APPID }}
+          apiKey: ${{ secrets.AZURE_APPLICATION_INSIGHTS_APIKEY }}
+          releaseName: ${{ github.event_name }}
+          message: ${{ github.event.head_commit.message }} (${{ github.event.head_commit.id }})
+          actor: ${{ github.actor }
