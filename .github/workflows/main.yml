@@ -1,31 +1,31 @@
+name: Azure Storage Blob Container CI/CD
+
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  push: 
+    branches:
+      - master
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-      - uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Upload to blob storage
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.0.72
-          inlineScript: |
-            az storage blob upload-batch --account-name mywebresume -d '$web' -s .
+          submodules: true
       
-    
-      - name: logout
-        run: |
-          az logout
-          
-          
+      - name: Get Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.76.3'
+          extended: true
 
+      - name: Build
+        run: hugo
 
-
+      - name: Azure Blob Upload
+        uses: bacongobbler/azure-blob-storage-upload@v1.1.1
+        with:
+          connection_string: ${{ secrets.AZURE_STORAGE_BLOB_SAS_CONNECTIONSTRING }}
+          source_dir: public
+          container_name: $web
+          sync: true
