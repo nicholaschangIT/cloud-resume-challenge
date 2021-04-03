@@ -1,47 +1,63 @@
-name: CI/CD Release Pipeline
-on: 
+name: Build and deploy live site
+
+defaults:
+  run:
+    shell: bash
+
+# run this workflow on...
+on:
+  # ... all pushes to master
   push:
     branches:
       - master
+  # ... this schedule: 1m past the hour @ 7a/9a/12a/5a, M-F (ET)
+  schedule:
+    - cron: '1 12,14,17,22 * * 1,2,3,4,5'
+
+env:
+  HUGO_VERSION: 0.71.1
+  SITE_BASEURL: https://stshelldataprd1.z6.web.core.windows.net/
+  AZURE_STORAGE_ACCOUNT: stshelldataprd1
+  # LIVE_AZURE_STORAGE_KEY: <secret>
+
 jobs:
-  build-and-deploy:
+  ######################################################################
+  # build & deploy the site
+  ######################################################################
+  build-deploy:
+    name: Build and deploy
+    if: "!contains(github.event.head_commit.message,'[skip-ci]')"
     runs-on: ubuntu-latest
     steps:
-      - name: Git Checkout
+      ######################################################################
+      # checkout full codebase
+      ######################################################################
+      - name: Checkout repo codebase
         uses: actions/checkout@v2
-        
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: "0.71.0"
-          extended: true
-
-      - name: Setup Azure Service Principal
-        uses: azure/login@v1.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Build Project
-        run: hugo --minify
-
-      - name: Release Assets
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          personal_token: ${{ secrets.TOKEN }}
-          publish_dir: ./public
+          fetch-depth: 1
+          clean: true
+          submodules: false
+      ######################################################################
+      # download & install Hugo
+      ######################################################################
+      - name: Download Hugo v${{ env.HUGO_VERSION }} Linux x64
+        run: "wget https://github.com/gohugoio/hugo/releases/download/v${{ env.HUGO_VERSION }}
+        /hugo_${{ env.HUGO_VERSION }}_Linux-64bit.deb -O hugo_${{ env.HUGO_VERSION }}_Linux-64bit.deb"
+      - name: Install Hugo
+        run: sudo dpkg -i hugo*.deb
+      ######################################################################
+      # build site with Hugo
+      ######################################################################
+      - name: Build site with Hugo
+        run: hugo --baseUrl '${{ env.SITE_BASEURL }}'
+      ######################################################################
+      # deploy site with Hugo deploy comment (only deploys diff)
+      ######################################################################
+      - name: Deploy build to static site (Azure storage blob)
+        run: hugo deploy --maxDeletes -1
+        env:
+          AZURE_STORAGE_ACCOUNT: ${{ env.AZURE_STORAGE_ACCOUNT }}
+          AZURE_STORAGE_KEY: ${{ secrets.LIVE_AZURE_STORAGE_KEY }}
+      ######################################################################
       
-      - name: Upload Assets To Azure Blob Storage
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.6.0
-          inlineScript: |
-            az storage blob delete-batch -s "\$web" --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
-            az storage blob upload-batch -d "\$web" -s ./public --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
-                    
-      - name: Purge Azure CDN Resources
-        run:
-          az cdn endpoint purge -n ${{ secrets.AZURE_CDN_ENDPOINT }} --profile-name ${{ secrets.AZURE_CDN_PROFILE_NAME }} --content-paths "/*" --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --no-wait
-          
-      - name: Dispose Azure Service Principal Session
-        run: |
-          az logout
