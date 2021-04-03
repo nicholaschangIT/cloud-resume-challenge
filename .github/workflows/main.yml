@@ -1,4 +1,4 @@
-name: Build and deploy live site
+name: deploy live site
 
 defaults:
   run:
