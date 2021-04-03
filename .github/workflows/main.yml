@@ -1,31 +1,28 @@
-name: Azure Storage Blob Container CI/CD
+name: blog
 
-on:
-  push: 
-    branches:
-      - master
+on: [push]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      
-      - name: Get Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: '0.76.3'
-          extended: true
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+        fetch-depth: 0
 
-      - name: Build
-        run: hugo
+    - name: Hugo Setup
+      uses: peaceiris/actions-hugo@v2
+      with:
+        hugo-version: '0.75.1'
 
-      - name: Azure Blob Upload
-        uses: bacongobbler/azure-blob-storage-upload@v1.1.1
-        with:
-          connection_string: ${{ secrets.AZURE_STORAGE_BLOB_SAS_CONNECTIONSTRING }}
-          source_dir: public
-          container_name: $web
-          sync: true
+    - name: Hugo build
+      run: hugo -s ./blog
+
+    - name: Copy to storage
+      env:
+        AZURE_STORAGE_URI: https://blogmeadonme.blob.core.windows.net/$web/
+        AZURE_STORAGE_SAS: ${{ secrets.BLOG_SAS_TOKEN }}
+      run: |
+        azcopy10 sync ./blog/public/ "${AZURE_STORAGE_URI}${AZURE_STORAGE_SAS}" --delete-destination=true
