@@ -1,16 +1,28 @@
-name: Hugo deploy
-on:
-  push:
-    branches: [master]
+
+  
+on: [push]
+
+name: AzurePowerShellSample
 
 jobs:
-  build:
+
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: jakejarvis/hugo-build-action@v0.69.2
-      - uses: tibor19/static-website-deploy@v1
-        with:
-          enabled-static-website: 'true'
-          folder: 'public'
-          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+    
+    - name: Login via Az module
+      uses: azure/login@v1.1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true 
+    
+    - name: Run Az CLI script
+      run: |
+        az webapp list --query "[?state=='Running']"
+   
+    - name: Run Azure PowerShell script
+      uses: azure/powershell@v1
+      with:
+        azPSVersion: '3.1.0'
+        inlineScript: |
+          Get-AzVM -ResourceGroupName "ActionsDemo"
