@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Git Checkout
         uses: actions/checkout@v2
-           
+        
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
@@ -29,7 +29,7 @@ jobs:
         with:
           personal_token: ${{ secrets.TOKEN }}
           publish_dir: ./public
-         
+      
       - name: Upload Assets To Azure Blob Storage
         uses: azure/CLI@v1
         with:
@@ -37,11 +37,7 @@ jobs:
           inlineScript: |
             az storage blob delete-batch -s "\$web" --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
             az storage blob upload-batch -d "\$web" -s ./public --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
-                       
-#    - name: Purge Azure CDN Resources
-#      run:
- #         az cdn endpoint purge -n ${{ secrets.AZURE_CDN_ENDPOINT }} --profile-name ${{ secrets.AZURE_CDN_PROFILE_NAME }} --content-paths "/*" --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --no-wait
-             
+                              
       - name: Dispose Azure Service Principal Session
         run: |
           az logout
