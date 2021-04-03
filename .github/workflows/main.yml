@@ -1,4 +1,4 @@
-name: azure_resume
+name: Hugo_resume
 
 on:
   push:
