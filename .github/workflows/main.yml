@@ -1,43 +1,17 @@
-# CI/CD Pipeline for building & deploying a Hugo static website to Azure Blob Storage.
-# Uses GitHub Hosted agents.
-# AZURE_STORAGE_KEY must be defined as a GitHub repository secret.
-name: CI/CD
-
-# Trigger the workflow on push or pull request events, but only for the master branch
+name: Upload To Azure Blob Storage
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
-env:
-  hugoVersion: '0.70.0'
-  storageAccount: storageaccount1
-
+    branches:
+      - master
 jobs:
-  build:
+  upload:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: true
-    
-    - name: Download Hugo
-      run: |
-        wget -c 'https://github.com/gohugoio/hugo/releases/download/v${{ env.hugoVersion }}/hugo_extended_${{ env.hugoVersion }}_Linux-64bit.deb'
-
-    - name: Install Hugo
-      run: |
-        sudo dpkg -i hugo_extended_${{ env.hugoVersion }}_Linux-64bit.deb
-
-    - name: Generate Blog
-      run: |
-        hugo --log -v
-    
-    # Prevent hugo deploy from deleting files with '--maxDeletes -1'
-    - name: Deploy Blog
-      run: |
-        hugo deploy --maxDeletes -1
-      env:
-        AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
-        AZURE_STORAGE_ACCOUNT: ${{ env.StorageAccount }}
+      - uses: actions/checkout@v2
+      - uses: chabad360/hugo-actions@master
+      - uses: bacongobbler/azure-blob-storage-upload@v1.1.1
+        with:
+          source_dir: 'public'
+          container_name: '$web'
+          connection_string: ${{ secrets.ConnectionString }}
+          sync: true
