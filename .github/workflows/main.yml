@@ -22,7 +22,7 @@ jobs:
           azcliversion: 2.0.72
   
           inlineScript: |
-            az storage blob upload-batch --account-name stshelldataprd1 -d '$web' -s .
+            az storage blob upload-batch -d "\$web" -s ./public --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
      
       - name: logout
         run: |
