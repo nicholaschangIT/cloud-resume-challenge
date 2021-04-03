@@ -1,4 +1,4 @@
-name: Hugo-resume
+name: hugo-resume
 on: 
   push:
     branches:
