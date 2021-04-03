@@ -1,28 +1,38 @@
-name: Blog
+name: CI/CD
 
-on: [push]
+# Trigger the workflow on push or pull request events, but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  hugoVersion: '0.70.0'
+  storageAccount: storageaccount1
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: true
-        fetch-depth: 0
-
-    - name: Hugo Setup
-      uses: peaceiris/actions-hugo@v2
-      with:
-        hugo-version: '0.75.1'
-
-    - name: Hugo build
-      run: hugo -s ./blog
-
-    - name: Copy to storage
-      env:
-        AZURE_STORAGE_URI: https://stshelldataprd1.blob.core.windows.net/$web/
-        AZURE_STORAGE_SAS: ${{ secrets.BLOG_SAS_TOKEN }}
+    
+    - name: Download Hugo
       run: |
-        azcopy10 sync ./blog/public/ "${AZURE_STORAGE_URI}${AZURE_STORAGE_SAS}" --delete-destination=true
+        wget -c 'https://github.com/gohugoio/hugo/releases/download/v${{ env.hugoVersion }}/hugo_extended_${{ env.hugoVersion }}_Linux-64bit.deb'
+    - name: Install Hugo
+      run: |
+        sudo dpkg -i hugo_extended_${{ env.hugoVersion }}_Linux-64bit.deb
+    - name: Generate Blog
+      run: |
+        hugo --log -v
+    
+    # Prevent hugo deploy from deleting files with '--maxDeletes -1'
+    - name: Deploy Blog
+      run: |
+        hugo deploy --maxDeletes -1
+      env:
+        AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+        AZURE_STORAGE_ACCOUNT: ${{ env.StorageAccount }}
