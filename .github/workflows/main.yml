@@ -1,4 +1,4 @@
-name: CI/CD Release Pipeline
+name: hugo-resume
 on: 
   push:
     branches:
