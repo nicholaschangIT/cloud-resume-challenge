@@ -1,12 +1,28 @@
+name: azure_resume
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps: 
-    - uses: actions/checkout@v2
-    - uses: tibor19/static-website-deploy@v1
-      with:
-        enabled-static-website: 'true'
-        folder: 'MyFolder'
-        connection-string: ${{ secrets.CONNECTION_STRING }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+            az storage blob upload-batch --account-name mywebresume -d '$web' -s .
+     
+      - name: logout
+        run: |
+          az logout
+          
