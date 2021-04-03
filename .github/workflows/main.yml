@@ -61,16 +61,4 @@ jobs:
         env:
           AZURE_STORAGE_ACCOUNT: ${{ env.AZURE_STORAGE_ACCOUNT }}
           AZURE_STORAGE_KEY: ${{ secrets.LIVE_AZURE_STORAGE_KEY }}
-      ######################################################################
-      # add release annotation to Azure App Insights
-      # > only annotate on push events & non [content] commits
-      ######################################################################
-      - name: Annotate deployment to Azure Application Insights
-        uses: wictorwilen/application-insights-action@v1
-        if: "github.event_name=='push' && !contains(github.event.head_commit.message,'[content]')"
-        with:
-          applicationId: ${{ env.AZURE_APPLICATION_INSIGHTS_APPID }}
-          apiKey: ${{ secrets.AZURE_APPLICATION_INSIGHTS_APIKEY }}
-          releaseName: ${{ github.event_name }}
-          message: ${{ github.event.head_commit.message }} (${{ github.event.head_commit.id }})
-          actor: ${{ github.actor }
+      
