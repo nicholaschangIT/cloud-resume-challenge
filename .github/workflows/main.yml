@@ -1,28 +1,16 @@
-name: azure_resume
-
+name: Hugo deploy
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-      - uses: azure/login@v1
+      - uses: jakejarvis/hugo-build-action@v0.69.2
+      - uses: tibor19/static-website-deploy@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Upload to blob storage
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.0.72
-          inlineScript: |
-            az storage blob upload-batch --account-name stshelldataprd1 -d '$web' -s .
-     
-      - name: logout
-        run: |
-          az logout
-          
+          enabled-static-website: 'true'
+          folder: 'public'
+          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
