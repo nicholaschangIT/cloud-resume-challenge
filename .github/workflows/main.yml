@@ -12,7 +12,7 @@ on:
 
 env:
   hugoVersion: '0.70.0'
-  storageAccount: storageaccount1
+  storageAccount: stshelldataprd1
 
 jobs:
   build:
