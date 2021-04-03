@@ -1,41 +1,44 @@
-# CI/CD Pipeline for building & deploying a Hugo static website to Azure Blob Storage.
-# Uses GitHub Hosted agents.
-# AZURE_STORAGE_KEY must be defined as a GitHub repository secret.
-name: CI/CD
-
-# Trigger the workflow on push or pull request events, but only for the master branch
-on:
+name: CI/CD Release Pipeline
+on: 
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
-env:
-  hugoVersion: '0.70.0'
-  storageAccount: stshelldataprd1
-
+    branches:
+      - master
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: true
-    
-    - name: Download Hugo
-      run: |
-        wget -c 'https://github.com/gohugoio/hugo/releases/download/v${{ env.hugoVersion }}/hugo_extended_${{ env.hugoVersion }}_Linux-64bit.deb'
-    - name: Install Hugo
-      run: |
-        sudo dpkg -i hugo_extended_${{ env.hugoVersion }}_Linux-64bit.deb
-    - name: Generate Blog
-      run: |
-        hugo --log -v
-    
-    # Prevent hugo deploy from deleting files with '--maxDeletes -1'
-    - name: Deploy Blog
-      run: |
-        hugo deploy --maxDeletes -1
-      env:
-        AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
-        AZURE_STORAGE_ACCOUNT: ${{ env.StorageAccount }}
+      - name: Git Checkout
+        uses: actions/checkout@v2
+           
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.71.0"
+          extended: true
+
+      - name: Setup Azure Service Principal
+        uses: azure/login@v1.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build Project
+        run: hugo --minify
+
+      - name: Release Assets
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.TOKEN }}
+          publish_dir: ./public
+         
+      - name: Upload Assets To Azure Blob Storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.6.0
+          inlineScript: |
+            az storage blob delete-batch -s "\$web" --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+            az storage blob upload-batch -d "\$web" -s ./public --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+                       
+             
+      - name: Dispose Azure Service Principal Session
+        run: |
+          az logout
