@@ -1,64 +1,28 @@
-name: Build and deploy live site
+name: Blob storage website CI
 
-defaults:
-  run:
-    shell: bash
-
-# run this workflow on...
 on:
-  # ... all pushes to master
-  push:
-    branches:
-      - master
-  # ... this schedule: 1m past the hour @ 7a/9a/12a/5a, M-F (ET)
-  schedule:
-    - cron: '1 12,14,17,22 * * 1,2,3,4,5'
-
-env:
-  HUGO_VERSION: 0.71.1
-  SITE_BASEURL: https://www.andrewconnell.com
-  AZURE_STORAGE_ACCOUNT: andrewconnellcom
-  # LIVE_AZURE_STORAGE_KEY: <secret>
-  AZURE_APPLICATION_INSIGHTS_APPID: 63YoMama-2e26-W3rs-8Pnk-0fArmyB00tsd
-  # AZURE_APPLICATION_INSIGHTS_APIKEY: <secret>
+    push:
+        branches: [ master ]
+    pull_request:
+        branches: [ master ]
 
 jobs:
-  ######################################################################
-  # build & deploy the site
-  ######################################################################
-  build-deploy:
-    name: Build and deploy
-    if: "!contains(github.event.head_commit.message,'[skip-ci]')"
+  build:
     runs-on: ubuntu-latest
-    steps:
-      ######################################################################
-      # checkout full codebase
-      ######################################################################
-      - name: Checkout repo codebase
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-          clean: true
-          submodules: false
-      ######################################################################
-      # download & install Hugo
-      ######################################################################
-      - name: Download Hugo v${{ env.HUGO_VERSION }} Linux x64
-        run: "wget https://github.com/gohugoio/hugo/releases/download/v${{ env.HUGO_VERSION }}
-        /hugo_${{ env.HUGO_VERSION }}_Linux-64bit.deb -O hugo_${{ env.HUGO_VERSION }}_Linux-64bit.deb"
-      - name: Install Hugo
-        run: sudo dpkg -i hugo*.deb
-      ######################################################################
-      # build site with Hugo
-      ######################################################################
-      - name: Build site with Hugo
-        run: hugo --baseUrl '${{ env.SITE_BASEURL }}'
-      ######################################################################
-      # deploy site with Hugo deploy comment (only deploys diff)
-      ######################################################################
-      - name: Deploy build to static site (Azure storage blob)
-        run: hugo deploy --maxDeletes -1
-        env:
-          AZURE_STORAGE_ACCOUNT: ${{ env.AZURE_STORAGE_ACCOUNT }}
-          AZURE_STORAGE_KEY: ${{ secrets.LIVE_AZURE_STORAGE_KEY }}
-      
+    steps:            
+    - uses: actions/checkout@v2
+    - uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Upload to blob storage
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+        inlineScript: |
+            az storage blob upload-batch --account-name <STORAGE_ACCOUNT_NAME> -d '$web' -s .
+
+  # Azure logout 
+    - name: logout
+      run: |
+            az logout
