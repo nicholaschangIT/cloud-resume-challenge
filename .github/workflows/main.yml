@@ -1,28 +1,41 @@
+# CI/CD Pipeline for building & deploying a Hugo static website to Azure Blob Storage.
+# Uses GitHub Hosted agents.
+# AZURE_STORAGE_KEY must be defined as a GitHub repository secret.
+name: CI/CD
 
-  
-on: [push]
+# Trigger the workflow on push or pull request events, but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
-name: AzurePowerShellSample
+env:
+  hugoVersion: '0.70.0'
+  storageAccount: storageaccount1
 
 jobs:
-
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-    
-    - name: Login via Az module
-      uses: azure/login@v1.1
+    - uses: actions/checkout@v2
       with:
-        creds: ${{secrets.AZURE_CREDENTIALS}}
-        enable-AzPSSession: true 
+        submodules: true
     
-    - name: Run Az CLI script
+    - name: Download Hugo
       run: |
-        az webapp list --query "[?state=='Running']"
-   
-    - name: Run Azure PowerShell script
-      uses: azure/powershell@v1
-      with:
-        azPSVersion: '3.1.0'
-        inlineScript: |
-          Get-AzVM -ResourceGroupName "ActionsDemo"
+        wget -c 'https://github.com/gohugoio/hugo/releases/download/v${{ env.hugoVersion }}/hugo_extended_${{ env.hugoVersion }}_Linux-64bit.deb'
+    - name: Install Hugo
+      run: |
+        sudo dpkg -i hugo_extended_${{ env.hugoVersion }}_Linux-64bit.deb
+    - name: Generate Blog
+      run: |
+        hugo --log -v
+    
+    # Prevent hugo deploy from deleting files with '--maxDeletes -1'
+    - name: Deploy Blog
+      run: |
+        hugo deploy --maxDeletes -1
+      env:
+        AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+        AZURE_STORAGE_ACCOUNT: ${{ env.StorageAccount }}
