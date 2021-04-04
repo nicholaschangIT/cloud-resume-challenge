@@ -1,4 +1,4 @@
-name: cloud_resume
+name: Cloud_Resume
 
 on:
   push:
