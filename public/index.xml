@@ -9,42 +9,42 @@
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://example.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About Me</title>
-      <link>https://example.com/about-me/</link>
+      <link>https://https://stshelldataprd1.z6.web.core.windows.net/about-me/</link>
       <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://example.com/about-me/</guid>
+
+      <guid>https://https://stshelldataprd1.z6.web.core.windows.net/about-me/</guid>
       <description>Thank you for visiting.
 My name is Nicholas Chang and I am an individual with passion in IT and like troubleshooting. I have 3/4 years experience in supporting a range of technologies such as, Windows 7,10 and Mac OSX in a wide range of industry. I have an interest in cloud technologies, infrastructure and security.
 When i am not playing with cloud things, I like to play video games, watch movies and hang out with family and friends.</description>
     </item>
-    
+
     <item>
       <title>Resume</title>
-      <link>https://example.com/projects/</link>
+      <link>https://https://stshelldataprd1.z6.web.core.windows.net/projects/</link>
       <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://example.com/projects/</guid>
+
+      <guid>https://https://stshelldataprd1.z6.web.core.windows.net/projects/</guid>
       <description>Projects/Achievements </description>
     </item>
-    
+
     <item>
       <title>Resume</title>
-      <link>https://example.com/resume/</link>
+      <link>https://https://stshelldataprd1.z6.web.core.windows.net/resume/</link>
       <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://example.com/resume/</guid>
+
+      <guid>https://https://stshelldataprd1.z6.web.core.windows.net/resume/</guid>
       <description>Experience Service Desk Technical Analyst CGI LTD October 2020 - Present Employed as a contract position to provide technical support to CGI client Crown Prosecution Service. The role include providing support to Windows 8/10, Microsoft Surface, Bitlocker, ActivID token via ServiceNow.
 2nd Line Support Engineer TRANSPUTEC LTD July 2019 - February 2020 Support Engieer in a MSP environment. -2nd Support Engineer in a managed service provider in London. Provides technical support to client around London.</description>
     </item>
-    
+
     <item>
       <title>Testimonials</title>
-      <link>https://example.com/testimonial/</link>
+      <link>https://https://stshelldataprd1.z6.web.core.windows.net//testimonial/</link>
       <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://example.com/testimonial/</guid>
+
+      <guid>https://https://stshelldataprd1.z6.web.core.windows.net//testimonial/</guid>
       <description></description>
     </item>
-    
+
   </channel>
 </rss>
