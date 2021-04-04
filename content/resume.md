@@ -27,15 +27,17 @@ January 2017 - June 2018
 # Skills #
 
 ### TECHNOLOGIES ###
-* DHCP   DNS   VPN   SaaS/PaaS/IaaS   Windows Server 2016   VMware ESXi   Citrix
-LANGUAGES, OPERATING SYSTEMS & TOOLS
-* Office 365   Windows   Ubuntu   Chocolatey   Mac OSX
+* DHCP,   DNS,   VPN,   SaaS/PaaS/IaaS   Windows Server 2016,   VMware ESXi,   Citrix
+
+### LANGUAGES, OPERATING SYSTEMS & TOOLS ### 
+
+* Office 365,   Windows,   Ubuntu,   Chocolatey,   Mac OSX
 ###  PLATFORM DEVELOPMENT & ADMINISTRATION ###
-* Github   NGINX   Wordpress
+* Github,   NGINX,   Wordpress
 
 ###  DATA MANAGEMENT ###
-* Oracle   MongoDB
-CLOUD
+* Oracle,   MongoDB
+### CLOUD ###
 * Azure
 
 # EDUCATION #

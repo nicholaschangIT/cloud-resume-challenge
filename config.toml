@@ -16,7 +16,6 @@ enableEmoji = true  # Shorthand emojis in content files - https://gohugo.io/func
  [author]
    name = "Nicholas Chang"
 
-
 [blackfriday]
   # hrefTargetBlank = true
   # noreferrerLinks = true
@@ -87,7 +86,7 @@ enableEmoji = true  # Shorthand emojis in content files - https://gohugo.io/func
       url = "projects/"
       weight = 20
 
-      [[menu.main]]
-         name = "Testimonial"
-         url = "testimonial/"
-         weight = 20
+    [[menu.main]]
+      name = "Testimonial"
+      url = "testimonial/"
+      weight = 20
