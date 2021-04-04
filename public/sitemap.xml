@@ -3,31 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://example.com/about-me/</loc>
+    <loc>https://stshelldataprd1.z6.web.core.windows.net/about-me/</loc>
     <lastmod>2014-04-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://example.com/projects/</loc>
+    <loc>https://stshelldataprd1.z6.web.core.windows.net/projects/</loc>
     <lastmod>2014-04-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://example.com/resume/</loc>
+    <loc>https://stshelldataprd1.z6.web.core.windows.net/resume/</loc>
     <lastmod>2014-04-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://example.com/testimonial/</loc>
+    <loc>https://stshelldataprd1.z6.web.core.windows.net/testimonial/</loc>
     <lastmod>2014-04-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://example.com/</loc>
+    <loc>https://stshelldataprd1.z6.web.core.windows.net/</loc>
   </url>
   
   <url>
-    <loc>https://example.com/tags/</loc>
+    <loc>https://stshelldataprd1.z6.web.core.windows.net/tags/</loc>
   </url>
   
 </urlset>
