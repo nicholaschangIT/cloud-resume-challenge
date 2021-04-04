@@ -1,4 +1,4 @@
-baseURL = "https://example.com"
+baseURL = "https://stshelldataprd1.z6.web.core.windows.net"
 languageCode = "en-us"
 defaultContentLanguage = "en"
 title = "Hi, I'm Nicholas :) "
