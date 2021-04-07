@@ -20,3 +20,9 @@ Here are a list of projects and achievements I have made throughout my career.
 ## Achievements ##  
 - Getting into University and achieve a 2.2 
 - Completed Windows Server 2012 Training Course 
+
+
+<img src="https://imgur.com/T8KcJhf.png"  width="150" height="200" align="left"> <img src="https://imgur.com/RIIJYZB.png" 	width="150" height="200" align=left> 
+
+<img src="https://imgur.com/tXq67Zc.png"  width="150" height="200" align="left" 
+/>
