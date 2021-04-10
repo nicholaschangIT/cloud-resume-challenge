@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hi, I&#39;m Nicholas :) </title>
-    <link>https://stshelldataprd1.z6.web.core.windows.net/</link>
+    <link>https://www.nicholaschang.co.uk/</link>
     <description>Recent content on Hi, I&#39;m Nicholas :) </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://stshelldataprd1.z6.web.core.windows.net/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://www.nicholaschang.co.uk/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About Me</title>
-      <link>https://stshelldataprd1.z6.web.core.windows.net/about-me/</link>
+      <link>https://www.nicholaschang.co.uk/about-me/</link>
       <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://stshelldataprd1.z6.web.core.windows.net/about-me/</guid>
+      <guid>https://www.nicholaschang.co.uk/about-me/</guid>
       <description>Thank you for visiting.
 My name is Nicholas Chang and I am an individual with passion in IT and like troubleshooting. I have 3/4 years experience in supporting a range of technologies such as, Windows 7,10 and Mac OSX in a wide range of industry. I have an interest in cloud technologies, infrastructure and security.
 When i am not playing with cloud, I like to play video games, watch movies and hang out with family and friends.</description>
@@ -20,30 +20,30 @@ When i am not playing with cloud, I like to play video games, watch movies and h
     
     <item>
       <title>Resume</title>
-      <link>https://stshelldataprd1.z6.web.core.windows.net/projects/</link>
+      <link>https://www.nicholaschang.co.uk/projects/</link>
       <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://stshelldataprd1.z6.web.core.windows.net/projects/</guid>
+      <guid>https://www.nicholaschang.co.uk/projects/</guid>
       <description>Projects/Achievements Here are a list of projects and achievements I have made throughout my career.
 Projects  Windows 10 Migration- Migrating from Windows 7 Email Migration – IBM iNote to Office 365 Email Office move- Unrack physical server and set up in new office  Certifications  Azure Fundamentals Azure Administrator Associate Azure Security Engineer  Achievements  Getting into University and achieve a 2.2 Completed Windows Server 2012 Training Course  </description>
     </item>
     
     <item>
       <title>Resume</title>
-      <link>https://stshelldataprd1.z6.web.core.windows.net/resume/</link>
+      <link>https://www.nicholaschang.co.uk/resume/</link>
       <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://stshelldataprd1.z6.web.core.windows.net/resume/</guid>
+      <guid>https://www.nicholaschang.co.uk/resume/</guid>
       <description>Experience Service Desk Technical Analyst CGI LTD October 2020 - Present Employed as a contract position to provide technical support to CGI client Crown Prosecution Service. The role include providing support to Windows 8/10, Microsoft Surface, Bitlocker, ActivID token via ServiceNow.
 2nd Line Support Engineer TRANSPUTEC LTD July 2019 - February 2020 Support Engieer in a MSP environment. -2nd Support Engineer in a managed service provider in London. Provides technical support to client around London.</description>
     </item>
     
     <item>
       <title>Testimonials</title>
-      <link>https://stshelldataprd1.z6.web.core.windows.net/testimonial/</link>
+      <link>https://www.nicholaschang.co.uk/testimonial/</link>
       <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://stshelldataprd1.z6.web.core.windows.net/testimonial/</guid>
+      <guid>https://www.nicholaschang.co.uk/testimonial/</guid>
       <description>Recommendations 2nd Line Support Manager at Transputec Nicholas is a great individual with a lot of passion. He goes the extra mile when needed, and is not scared to get his hands dirty when he has too. Nicholas is one of those guys that does not make a problem stop him, and will figure it out in the long run. It was a real pleasure to have worked with him.</description>
     </item>
     
