@@ -1,4 +1,4 @@
-name: cloud_Resume
+name: Cloud_Resume
 
 on:
   push:
@@ -44,7 +44,7 @@ jobs:
         with:
           azcliversion: 2.0.72
           inlineScript: |
-           az cdn endpoint purge --content-paths  "/*" --profile-name "careersite" --name "CDN_ENDPOINT" --resource-group "rg-web-prod01"
+           az cdn endpoint purge -n ${{ secrets.AZURE_CDN_ENDPOINT }} --profile-name ${{ secrets.AZURE_CDN_PROFILE_NAME }} --content-paths "/*" --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --no-wait
       - name: logout
         run: |
           az logout      
