@@ -44,7 +44,7 @@ jobs:
         with:
           azcliversion: 2.0.72
           inlineScript: |
-           az cdn endpoint purge --content-paths  "/*" --profile-name "career-site" --name "nicholaschang" --resource-group "rg-web-prod01"
+           az cdn endpoint purge --content-paths  "/*" --profile-name "careersite" --name "CDN_ENDPOINT" --resource-group "rg-web-prod01"
       - name: logout
         run: |
           az logout      
