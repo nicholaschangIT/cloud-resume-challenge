@@ -19,3 +19,7 @@ const getVisitCount = () => {
     })
     return count;
 }
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    getVisitCount();
+});
