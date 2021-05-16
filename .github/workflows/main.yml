@@ -1,10 +1,11 @@
-name: Cloud_Resume2
+name: Cloud_Resume
 
 on:
   push:
-        branches: [ main ]
-        paths:
-        - 'Functions/**'
+    branches: [ main ]
+    
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
