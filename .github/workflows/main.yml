@@ -2,9 +2,9 @@ name: Cloud_Resume
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+        branches: [ main ]
+        paths:
+        - 'Functions/**'
 
 jobs:
   build:
