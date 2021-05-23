@@ -2,13 +2,6 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "type": "func",
-      "command": "host start",
-      "problemMatcher": "$func-node-watch",
-      "isBackground": true,
-      "dependsOn": "npm install"
-    },
-    {
       "type": "shell",
       "label": "npm install",
       "command": "npm install"
@@ -18,6 +11,82 @@
       "label": "npm prune",
       "command": "npm prune --production",
       "problemMatcher": []
+    },
+    {
+      "label": "clean",
+      "command": "dotnet",
+      "args": [
+        "clean",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "type": "process",
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/api"
+      }
+    },
+    {
+      "label": "build",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "type": "process",
+      "dependsOn": "clean",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/api"
+      }
+    },
+    {
+      "label": "clean release",
+      "command": "dotnet",
+      "args": [
+        "clean",
+        "--configuration",
+        "Release",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "type": "process",
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/api"
+      }
+    },
+    {
+      "label": "publish",
+      "command": "dotnet",
+      "args": [
+        "publish",
+        "--configuration",
+        "Release",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "type": "process",
+      "dependsOn": "clean release",
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/api"
+      }
+    },
+    {
+      "type": "func",
+      "dependsOn": "build",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/api/bin/Debug/netcoreapp3.1"
+      },
+      "command": "host start",
+      "isBackground": true,
+      "problemMatcher": "$func-dotnet-watch"
     }
   ]
 }
