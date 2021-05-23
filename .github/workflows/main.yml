@@ -1,12 +1,9 @@
-name: Cloud_Resume
+name: azure_resume
 
 on:
   push:
     branches: [ main ]
     
-  pull_request:
-    branches: [ main ]
-
 jobs:
   build:
 
