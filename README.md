@@ -1,5 +1,26 @@
-# cgc-azure-resume-starter
+Cloud Resume Azure Challenge
 
+Hi! 👋  
+
+I am following the process described by A Cloud Guru Challenge.
+
+# My Progress #
+
+### The website ###
+​
+For the website, I used a template from Hugo 
+### Storage Account ###
+
+Set up Storage container to host the site. 
+​
+Add a domain to the storage container and enable a CDN profile and endpoint 
+## Github ## 
+​
+Set up Github repo to use the source code 
+​
+Add a Github Action and push it with CI/CD with visual studio code 
+
+Purge CDN endpoint so it add the latest changes to your website. ​
 ## Prerequisites
 
 - [Starter code repo](https://github.com/ACloudGuru-Resources/acg-project-azure-resume-starter)
@@ -25,25 +46,3 @@ The front-end is a static site with HTML, CSS, and JavaScript. It's static and h
 ## Back-end resources
 
 The back-end is an [HTTP triggered](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook-trigger?tabs=csharp) Azure Functions with Cosmos DB input and output binding. The Function is triggered, it retrieves the CosmosDB item, add +1 to it, and saves it and returns its value to the caller.
-
-- [Prerequisites for developing functions with visual code locally.](https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-csharp)
-- [Create a Cosmos DB account via command line](https://azure.microsoft.com/en-us/resources/templates/101-cosmosdb-free/) or [from the portal](https://docs.microsoft.com/en-us/azure/cosmos-db/create-cosmosdb-resources-portal).
-- [Create an HTTP triggered Azure Function in Visual Studio Code.](https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-vs-code?tabs=csharp)
-- [Azure Functions Cosmos DB bindings](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-cosmosdb-v2)
-- [Retrieve a Cosmos DB item with Functions binding.](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-cosmosdb-v2-input?tabs=csharp)
-- [Write to a Cosmos DB item with Functions binding.](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-cosmosdb-v2-output?tabs=csharp)
-- You'll have to [enable CORS with Azure Functions](https://github.com/Azure/azure-functions-host/issues/1012) locally and once it's [deployed to Azure](https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings?tabs=portal#cors) for you website to be able to call it.
-
-## Testing Resources
-
-- [Testing is important.](https://dev.to/flippedcoding/its-important-to-test-your-code-3lid)
-- [Getting Started with xUnit.net.](https://xunit.net/docs/getting-started/netcore/cmdline)
-- [How to setup Xunit with Azure Functions.](https://madebygps.com/how-to-use-xunit-with-azure-functions/)
-- [Testing Azure Functions.](https://docs.microsoft.com/en-us/azure/azure-functions/functions-test-a-function)
-  
-## CI/CD Resources
-
-- This is how you can deploy a blob storage static site with [GitHub actions.](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-static-site-github-actions) Used in frontend.main.yml.
-- This is how you can deploy an [Azure Function to Azure with GitHub Actions.](https://github.com/madebygps/cgc-azure-resume/blob/main) Used in backend.main.yml
-- [Implement .NET testing in GitHub Actions.](https://docs.github.com/en/actions/guides/building-and-testing-net)
-
