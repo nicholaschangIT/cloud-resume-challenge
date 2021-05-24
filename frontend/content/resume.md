@@ -7,7 +7,7 @@ date = "2014-04-09"
 
 ### Service Desk Technical Analyst CGI LTD           October 2020 - Present ###
 
-Employed as a contract position to provide technical support to CGI client Crown Prosecution Service. The role include providing support to Windows 8/10, Microsoft Surface, Bitlocker, ActivID token via ServiceNow.
+Employed as a contract position to provide technical support to Government Agency. The role include providing support to Windows 8/10, Microsoft Surface, Bitlocker, ActivID token via ServiceNow.
 
 ### 2nd Line Support Engineer TRANSPUTEC LTD         July 2019 - February 2020 ###
 Support Engieer in a MSP environment. -2nd Support Engineer in a managed service provider in London. Provides technical support to client around London. Some of the duties includes, migrating VMware ESXi virtual machines, deploying software using SCCM, dealing with international issues, moving office and setting up new starter workstations.
