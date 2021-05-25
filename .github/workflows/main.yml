@@ -4,8 +4,7 @@ on:
     push:
         branches: [ main ]
         paths: 
-        - 'frontend/**'
-    
+        - 'frontend/**'   
 jobs:
   build:
 
@@ -38,7 +37,7 @@ jobs:
   
           inlineScript: |
             az storage blob delete-batch -s "\$web" --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
-            az storage blob upload-batch -d "\$web" -s ./public --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+            az storage blob upload-batch -d "\$web" -s -s frontend/public --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
       - name: Purge CDN endpoint
         uses: azure/CLI@v1
         with:
@@ -47,4 +46,4 @@ jobs:
            az cdn endpoint purge -n ${{ secrets.AZURE_CDN_ENDPOINT }} --profile-name ${{ secrets.AZURE_CDN_PROFILE_NAME }} --content-paths "/*" --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --no-wait
       - name: logout
         run: |
-          az logout    
+          az logout      
