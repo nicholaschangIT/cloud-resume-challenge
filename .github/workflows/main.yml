@@ -1,4 +1,4 @@
-name: deployresume
+name: Deployresume
 
 on:
     push:
