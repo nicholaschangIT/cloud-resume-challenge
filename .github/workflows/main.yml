@@ -1,5 +1,4 @@
 name: deployresume
-# Deploys when push is made from frontend folder
 
 on:
     push:
