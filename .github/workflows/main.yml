@@ -12,9 +12,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: submodule checkout
-        run: git submodule add  https://github.com/Track3/hermit.git
     
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
