@@ -12,8 +12,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          submodules: true 
+    
         # (Optional)If you have the theme added as submodule, you can pull it and use the most updated version
         run: git submodule add https://github.com/Track3/hermit.git
 
