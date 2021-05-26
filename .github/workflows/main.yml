@@ -20,13 +20,13 @@ jobs:
           hugo-version: '0.76.3'
           extended: true
 
+      - name: Build Project
+        run: hugo --minify
+
       - name: Setup Azure Service Principal
         uses: azure/login@v1.1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Build Project
-        run: hugo --minify
 
       - uses: azure/login@v1
         with:
