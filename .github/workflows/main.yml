@@ -12,10 +12,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-    
-        # (Optional)If you have the theme added as submodule, you can pull it and use the most updated version
-        run: git submodule add https://github.com/Track3/hermit.git
 
+      - name: Update theme
+        run: git submodule update --init --recursive
+        
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
