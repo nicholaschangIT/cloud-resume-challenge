@@ -3,8 +3,7 @@ name: azure_resume
 on:
   push:
     branches: [ main ]
-    paths:
-        - "frontend/**"
+
 jobs:
   build:
     runs-on: ubuntu-latest
