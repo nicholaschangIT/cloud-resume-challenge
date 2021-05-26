@@ -1,16 +1,16 @@
-name: deployresume
+name: Deployresume
 
 on:
     push:
         branches: [ main ]
-         
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
+      
+        run: git submodule update --init --recursive
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
@@ -36,7 +36,7 @@ jobs:
   
           inlineScript: |
             az storage blob delete-batch -s "\$web" --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
-            az storage blob upload-batch -d "\$web"  -s frontend/ --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+            az storage blob upload-batch -d "\$web"  -s frontend\ --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
       - name: Purge CDN endpoint
         uses: azure/CLI@v1
         with:
