@@ -2,9 +2,9 @@ name: Deploy backend.main
 
 on:
   push:
-      branches: [ main ]
-      paths:
-      - 'backend/**'
+        branches: [ main ]
+        paths:
+        - 'backend/**'
 
 env:
   AZURE_FUNCTIONAPP_NAME: func-azureresume # set this to your application's name
@@ -13,7 +13,7 @@ env:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@main
@@ -21,7 +21,7 @@ jobs:
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
       uses: actions/setup-dotnet@v1
@@ -36,7 +36,7 @@ jobs:
         popd
     - name: 'Run unit test'
       shell: pwsh
-      run: |
+      run: | 
         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/tests'
         dotnet test
     - name: 'Run Azure Functions Action'
