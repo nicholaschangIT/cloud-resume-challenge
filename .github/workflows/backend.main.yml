@@ -1,11 +1,10 @@
-name: Deploy backend
+name: Deploy backend.main
 
 on:
   push:
       branches: [ main ]
       paths:
       - 'backend/**'
-
 
 env:
   AZURE_FUNCTIONAPP_NAME: func-azureresume # set this to your application's name
