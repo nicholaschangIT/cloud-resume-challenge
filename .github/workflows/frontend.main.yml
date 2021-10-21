@@ -3,6 +3,8 @@ name: Deploy_frontend
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'backend/**'
           
 jobs:
   build:
