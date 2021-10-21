@@ -1,12 +1,12 @@
 name: deploy_frontend
 # Deploys when push is made from frontend folder
 
-# Deploy when push made from backend folder.
 on:
-  push:
+    push:
         branches: [ main ]
-      
-      
+        paths: 
+        - 'frontend/**'
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -38,7 +38,7 @@ jobs:
   
           inlineScript: |
             az storage blob delete-batch -s "\$web" --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
-            az storage blob upload-batch --account-name mywebresume -d '$web' -s frontend/
+            az storage blob upload-batch -d "\$web" -s frontend/ --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
       
       - name: Purge CDN endpoint
         uses: azure/CLI@v1
