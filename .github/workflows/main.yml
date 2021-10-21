@@ -6,7 +6,6 @@ on:
     - 'path-check'
     paths:
     - 'frontend/**'
-    - '.github/workflows/**'
 
 jobs:
   hello-world:
