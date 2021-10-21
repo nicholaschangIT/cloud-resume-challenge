@@ -2,15 +2,15 @@ name: deploy_frontend
 # Deploys when push is made from frontend folder
 
 on:
-  push:
-      branches: [ main ]
-      paths:
-      - 'frontend/**'
+    push:
+        branches: [ main ]
+        paths: 
+        - 'frontend/**'
     
 jobs:
   build:
-    runs-on: windows-latest
-
+    runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v2
     
@@ -21,16 +21,13 @@ jobs:
           extended: true
 
       - name: Setup Azure Service Principal
-        uses: azure/login@v1.1
+      - uses: azure/login@v1.1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Build Project
         run: hugo --minify
 
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Upload to blob storage
         uses: azure/CLI@v1
         with:
@@ -49,3 +46,7 @@ jobs:
       - name: logout
         run: |
           az logout      
+
+
+
+          
