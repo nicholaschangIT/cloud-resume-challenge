@@ -14,16 +14,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
     
+      - name: Setup Azure Service Principal
+        uses: azure/login@v1.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: "0.71.0"
           extended: true
-
-      - name: Setup Azure Service Principal
-        uses: azure/login@v1.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Build Project
         run: hugo --minify
