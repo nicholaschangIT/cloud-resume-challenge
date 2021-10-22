@@ -32,7 +32,7 @@ jobs:
   
           inlineScript: |
             az storage blob delete-batch -s "\$web" --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
-            az storage blob upload-batch --account-name cloudresumesite -d '$web' -s frontend/
+            az storage blob upload-batch -d "\$web" -s frontend/ --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
       
       - name: Purge CDN endpoint
         uses: azure/CLI@v1
@@ -40,6 +40,8 @@ jobs:
           azcliversion: 2.0.72
           inlineScript: |
            az cdn endpoint purge -n ${{ secrets.AZURE_CDN_ENDPOINT }} --profile-name ${{ secrets.AZURE_CDN_PROFILE_NAME }} --content-paths "/*" --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --no-wait
+      
+      
       - name: logout
         run: |
           az logout      
