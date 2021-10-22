@@ -1,4 +1,24 @@
-name: deploy_frontend
+- name: Upload to blob storage
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+        inlineScript: |
+            az storage blob upload-batch --account-name cloudresumesite -d '$web' -s frontend/
+    - name: Purge CDN endpoint
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+        inlineScript: |
+          az cdn endpoint purge --content-paths "/*" --resource-group cloud-resume-challenge-rg --profile-name cloudresumechallengegps --name cloudresumechallengegps
+          
+  # Azure logout 
+    - name: logout
+      run: |
+            az logout
+
+
+
+  name: deploy_frontend
 # Deploys when push is made from frontend folder
 
 on:
@@ -29,8 +49,10 @@ jobs:
         uses: azure/CLI@v1
         with:
           azcliversion: 2.0.72
+  
           inlineScript: |
-            az storage blob upload-batch --account-name cloudresumesite -d '$web' -s frontend/
+            az storage blob delete-batch -s "\$web" --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+            az storage blob upload-batch -d "\$web" -s frontend/ --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
       
       - name: Purge CDN endpoint
         uses: azure/CLI@v1
