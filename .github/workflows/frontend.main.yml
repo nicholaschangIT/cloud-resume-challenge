@@ -1,4 +1,4 @@
-name: Deploy_frontend
+name: deploy_frontend
 # Deploys when push is made from frontend folder
 
 on:
@@ -6,7 +6,7 @@ on:
         branches: [ main ]
         paths: 
         - 'frontend/**'
- 
+    
 jobs:
   build:
     runs-on: ubuntu-latest 
@@ -36,7 +36,11 @@ jobs:
             az storage blob upload-batch -d "\$web" -s frontend/ --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
       
       - name: Purge CDN endpoint
-           az cdn endpoint purge --content-paths "/*" --resource-group rg-web-prd-cloudresume --profile-name career-site --name nicholaschang
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+           az cdn endpoint purge -n ${{ secrets.AZURE_CDN_ENDPOINT }} --profile-name ${{ secrets.AZURE_CDN_PROFILE_NAME }} --content-paths "/*" --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --no-wait
       
       - name: logout
         run: |
