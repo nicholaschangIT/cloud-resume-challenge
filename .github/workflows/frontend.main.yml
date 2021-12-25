@@ -36,10 +36,6 @@ jobs:
             az storage blob upload-batch -d "\$web" -s frontend/ --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
       
       - name: Purge CDN endpoint
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.0.72
-          inlineScript: |
            az cdn endpoint purge --content-paths "/*" --resource-group rg-web-prd-cloudresume --profile-name career-site --name nicholaschang
       
       - name: logout
