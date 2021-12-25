@@ -1,37 +1,47 @@
 name: deploy_frontend
+# Deploys when push is made from frontend folder
 
-# Deploy when push made from frontend folder.
 on:
     push:
         branches: [ main ]
-        paths:
+        paths: 
         - 'frontend/**'
     
-
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:            
-    - uses: actions/checkout@v2
-    - uses: azure/login@v1
-      with:
+    runs-on: ubuntu-latest 
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: azure/login@v1.1
+        with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Upload to blob storage
-      uses: azure/CLI@v1
-      with:
-        azcliversion: 2.0.72
-        inlineScript: |
-            az storage blob upload-batch --account-name stshelldataprd1 -d '$web' -s frontend/
-    
-    - name: Purge CDN endpoint
-      uses: azure/CLI@v1
-      with:
-        azcliversion: 2.0.72
-        inlineScript: |
-          az cdn endpoint purge --content-paths "/*" --resource-group rg-web-prd-cloudresume --profile-name career-site --name nicholaschang
-          
-  # Azure logout 
-    - name: logout
-      run: |
-            az logout
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.71.0"
+          extended: true
+
+      - name: Build Project
+        run: hugo --minify
+
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+  
+          inlineScript: |
+            az storage blob delete-batch -s "\$web" --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+            az storage blob upload-batch -d "\$web" -s frontend/ --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+      
+      - name: Purge CDN endpoint
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+           az cdn endpoint purge -n ${{ secrets.AZURE_CDN_ENDPOINT }} --profile-name ${{ secrets.AZURE_CDN_PROFILE_NAME }} --content-paths "/*" --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --no-wait
+      
+      - name: logout
+        run: |
+          az logout      
