@@ -2,17 +2,22 @@ Cloud Resume Azure Challenge
 
 Hi! 👋  
 
-I am following the process described by A Cloud Guru Challenge.
-
-# My Progress #
+This is the A Cloud Guru Challenge by Gwyneth Pena-Siguenza. The main aim of the challenge is to create a resume using using azure and by taking this challnege it helps build more skills in the cloud.  Details of the challenge can be found here. https://acloudguru.com/blog/engineering/cloudguruchallenge-your-resume-in-azure. 
 
 ### The website ###
 ​
+When building the website and her advice, I have copied the resume new starter template from her Github Repo in my project repo.  
 ### Storage Account ###
 
-Set up Storage container to host the site. 
-​
-Add a domain to the storage container and enable a CDN profile and endpoint 
+I used Azure Storage for hosting the static website directly from a storage container. I have created a resource group and a storage account. In the storage account, I enabled the static website hosting and uploaded the website content to the storage account. I retrieved the default website URL to confirm that the website works. 
+
+### Creating Azure CDN Profile and Endpoint###
+
+The next step is to add a domain to the storage container and enable a CDN profile and endpoint. Azure CDN enables delivering files faster and more reliably by using servers closest to the users. The Azure CDN provides HTTPS support using an SSL certificate and adding a custom domain for the website.
+
+### CosmosDB to store Visitor Count with Azure Function ###
+
+Gwen suggested using CosmosDB to store visitor count. Azure offers a free tier for CosmosDB. I created the CosmosDB database and a container to store one record of my visitor count. The record has an id equal to “1” and a visitorCount property, which will later read and updated with Azure function.
 ## Github ## 
 ​
 Set up Github repo to use the source code 
