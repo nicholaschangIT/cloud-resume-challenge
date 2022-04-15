@@ -8,7 +8,6 @@ I am following the process described by A Cloud Guru Challenge.
 
 ### The website ###
 ​
-For the website, I used a template from Hugo 
 ### Storage Account ###
 
 Set up Storage container to host the site. 
