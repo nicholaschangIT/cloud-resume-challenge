@@ -17,15 +17,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: "0.71.0"
-          extended: true
-
-      - name: Build Project
-        run: hugo --minify
-
       - name: Upload to blob storage
         uses: azure/CLI@v1
         with:
