@@ -14,7 +14,7 @@ variable "storage_account" {
 }
 
 variable "name" {
-  type        = string 
-  desdefault = "name of resources" 
+  type            = string 
+  description   = "name of resources" 
 
 }

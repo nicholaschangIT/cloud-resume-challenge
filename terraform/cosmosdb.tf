@@ -49,3 +49,4 @@ resource "azurerm_cosmosdb_account" "db" {
     failover_priority = 0
   }
 }
+
