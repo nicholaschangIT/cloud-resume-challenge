@@ -71,6 +71,10 @@ enableEmoji = true  # Shorthand emojis in content files - https://gohugo.io/func
     name = "github"
     url = "https://github.com/nicholaschangIT/"
 
+  [[params.social]]
+    name = "twitter"
+    url = "https://twitter.com/nick_cloudops/"
+
 [menu]
 
   [[menu.main]]
@@ -88,9 +92,8 @@ enableEmoji = true  # Shorthand emojis in content files - https://gohugo.io/func
       url = "projects/"
       weight = 20
 
-    [[menu.main]]
+  [[menu.main]]
       name = "Testimonial"
       url = "testimonial/"
       weight = 20
 
-  
